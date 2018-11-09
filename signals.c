@@ -2,6 +2,9 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <signal.h>
+#include <fcntl.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 
 static void sighandler(int signo){
   if(signo == SIGUSR1){
@@ -10,6 +13,9 @@ static void sighandler(int signo){
   }
   if(signo == SIGINT){
     printf("%s\n","SIGINT");
+    int thing = open("note.txt", O_APPEND | O_CREAT);
+    write(thing,"Nico Nico Niiiiiii\n",19);
+    close(thing);
     exit(0);
   }
 }
@@ -17,9 +23,9 @@ static void sighandler(int signo){
 int main(){
   while(1){
     printf("%d\n",getpid());
-    sleep(1);
     signal(SIGUSR1, sighandler);
     signal(SIGINT, sighandler);
+    sleep(1);
   }
   return 0;
 }

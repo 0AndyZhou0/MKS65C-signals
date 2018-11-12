@@ -8,12 +8,11 @@
 
 static void sighandler(int signo){
   if(signo == SIGUSR1){
-    printf("%s\n","SIGUSR1");
-    exit(0);
+    printf("%d\n",getppid());
   }
   if(signo == SIGINT){
     printf("%s\n","SIGINT");
-    int thing = open("note.txt", O_APPEND | O_CREAT);
+    int thing = open("note.txt", O_CREAT | O_RDWR | O_APPEND, 0666);
     write(thing,"Nico Nico Niiiiiii\n",19);
     close(thing);
     exit(0);
